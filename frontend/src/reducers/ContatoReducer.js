@@ -1,5 +1,3 @@
-// reducers/contatoReducer.js
-
 import { SET_CONTATO } from '../actions/types';
 
 const initialState = {
