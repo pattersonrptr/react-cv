@@ -5,6 +5,9 @@ import Formulario from './components/Formulario';
 import { useState } from 'react';
 import Curriculo from './components/curriculo/Curriculo';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 const App = () => {
   const [nome, setNome] = useState('');
   const [celular, setCelular] = useState('');
@@ -126,7 +129,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <main>
         <section className='dados'>
@@ -143,7 +146,7 @@ const App = () => {
         <Curriculo states={states} />
       </main>
       <Footer />
-    </>
+    </Provider>
   );
 };
 

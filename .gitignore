@@ -22,6 +22,5 @@ yarn-error.log*
 
 .venv
 venv
-.pyc
+*.pyc
 __pycache__
-
