@@ -4,14 +4,15 @@ import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import FormField from '../FormField';
-import { setContato } from '../../actions/contatosActions';
+import { setContato } from '../../actions/contatoActions';
 
 const FormContato = (props) => {
   const { contato, setContato, mudarForm } = props;
 
   const handleInputChange = (e) => {
+    console.log(e.target)
     const { name, value } = e.target;
-    setContato({ ...contato, [name]: value }); // Atualiza o estado do Redux
+    setContato({ ...contato, [name]: value });
   };
 
   return (

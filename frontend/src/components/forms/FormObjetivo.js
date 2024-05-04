@@ -1,13 +1,21 @@
 import FormField from '../FormField';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { setObjetivo } from '../../actions/objetivoActions';
 
 const FormFormacao = (props) => {
-  const { mudarForm, objetivo, defObjetivo } = props;
+  const { mudarForm, objetivo, setObjetivo } = props;
+
+  const handleInputChange = (e) => {
+    setObjetivo(e.target.value);
+  };
+
   return (
     <>
       <h2>Objetivo</h2>
-      <form action='' onSubmit={() => mudarForm('formacao')}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <FormField
           id='objetivo'
           label='Objetivo:'
@@ -17,7 +25,7 @@ const FormFormacao = (props) => {
             name: 'objetivo',
           }}
           iptValue={objetivo}
-          iptChange={(e) => defObjetivo(e)}
+          iptChange={handleInputChange}
         />
         <div className='botoes'>
           <button
@@ -31,7 +39,7 @@ const FormFormacao = (props) => {
               title='Anterior'
             />
           </button>
-          <button type='submit'>
+          <button type='submit' onClick={() => mudarForm('formacao')}>
             <FontAwesomeIcon
               icon={faArrowRight}
               alt='Seta para a direita'
@@ -44,4 +52,11 @@ const FormFormacao = (props) => {
   );
 };
 
-export default FormFormacao;
+const mapStateToProps = (state) => ({
+  objetivo: state.objetivo,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ setObjetivo }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormFormacao);
