@@ -1,10 +1,44 @@
 import FormField from '../FormField';
 import uniqid from 'uniqid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPrint, faSave } from '@fortawesome/free-solid-svg-icons';
+
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { setContato } from '../../actions/contatosActions';
+
+const enviarParaAPI = (contatoData) => {
+  console.log(contatoData.nome)
+    axios.post('http://localhost:8000/curriculum/', {
+      name: contatoData.nome,
+      email: contatoData.email,
+      phone: contatoData.telefone,
+      address: "Av Fim do Mundo",
+    edu_info: [
+      'Bachelor of Science in Computer Science, XYZ University, 2020',
+      'Master of Business Administration, ABC University, 2022'
+    ],
+    exp_info: [
+      'Software Engineer at Company A (2020-2022)',
+      'Business Analyst at Company B (2022-present)'
+    ],
+    skills_info: ['Python', 'Data Analysis', 'Project Management', 'Communication']
+  }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    console.log('Response:', response);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+};
+
 
 const FormHabilidade = (props) => {
-  const { mudarForm, novaHabilidade, states, limparForm, defHabilidade } =
+  const { mudarForm, novaHabilidade, states, limparForm, defHabilidade, contato } =
     props;
   const submitForm = (e) => {
     e.preventDefault();
@@ -59,10 +93,17 @@ const FormHabilidade = (props) => {
           <button type='button' onClick={() => window.print()}>
             <FontAwesomeIcon icon={faPrint} alt='Impressora' title='Imprimir' />
           </button>
+          <button type='button' onClick={() => enviarParaAPI(contato)}>
+            <FontAwesomeIcon icon={faSave} alt='Salvar' title='Salvar' />
+          </button>
         </div>
       </form>
     </>
   );
 };
 
-export default FormHabilidade;
+const mapStateToProps = (state) => ({
+  contato: state.contato
+});
+
+export default connect(mapStateToProps, { setContato })(FormHabilidade);

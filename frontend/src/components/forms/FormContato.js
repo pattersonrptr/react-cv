@@ -1,13 +1,23 @@
-import FormField from '../FormField';
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import FormField from '../FormField';
+import { setContato } from '../../actions/contatosActions';
 
 const FormContato = (props) => {
-  const { defContatos, states, mudarForm } = props;
+  const { contato, setContato, mudarForm } = props;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContato({ ...contato, [name]: value }); // Atualiza o estado do Redux
+  };
+
   return (
     <>
       <h2>Informações de contato</h2>
-      <form action='' onSubmit={() => mudarForm('objetivo')}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <FormField
           id='nome'
           label='Nome completo:'
@@ -17,8 +27,8 @@ const FormContato = (props) => {
             minLength: 3,
             name: 'nome',
           }}
-          iptValue={states.nome}
-          iptChange={defContatos.defNome}
+          iptValue={contato.nome}
+          iptChange={handleInputChange}
         />
         <FormField
           id='celular'
@@ -27,10 +37,10 @@ const FormContato = (props) => {
             type: 'tel',
             minLength: 11,
             maxLength: 11,
-            name: 'celular',
+            name: 'telefone',
           }}
-          iptValue={states.celular}
-          iptChange={defContatos.defCelular}
+          iptValue={contato.telefone}
+          iptChange={handleInputChange}
         />
         <FormField
           id='email'
@@ -39,8 +49,8 @@ const FormContato = (props) => {
             type: 'email',
             name: 'email',
           }}
-          iptValue={states.email}
-          iptChange={defContatos.defEmail}
+          iptValue={contato.email}
+          iptChange={handleInputChange}
         />
         <FormField
           id='linkedin'
@@ -49,10 +59,10 @@ const FormContato = (props) => {
             type: 'text',
             name: 'linkedin',
           }}
-          iptValue={states.linkedin}
-          iptChange={defContatos.defLinkedin}
+          iptValue={contato.linkedin}
+          iptChange={handleInputChange}
         />
-        <button type='submit'>
+        <button type='submit' onClick={() => mudarForm('objetivo')}>
           <FontAwesomeIcon
             icon={faArrowRight}
             alt='Seta para a direita'
@@ -64,4 +74,11 @@ const FormContato = (props) => {
   );
 };
 
-export default FormContato;
+const mapStateToProps = (state) => ({
+  contato: state.contato,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ setContato }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormContato);
