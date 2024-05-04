@@ -5,7 +5,7 @@ import { faArrowLeft, faPrint, faSave } from '@fortawesome/free-solid-svg-icons'
 
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setContato } from '../../actions/contatosActions';
+import { setContato } from '../../actions/contatoActions';
 
 const enviarParaAPI = (contatoData) => {
   console.log(contatoData.nome)
